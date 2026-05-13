@@ -2,7 +2,7 @@
   "meta": {
     "tripOwner": "Anasse Ataya",
     "lastUpdated": "2026-05-13",
-    "totalManufacturers": 22
+    "totalManufacturers": 23
   },
   "categories": [
     "Sportswear",
@@ -29,6 +29,22 @@
     "Other": []
   },
   "manufacturers": [
+    {
+      "id": "MFR-023",
+      "name": "Qingdao Gospel Boat Co., Ltd.",
+      "city": "Qingdao",
+      "province": "Shandong",
+      "category": "Marine / Boats",
+      "products": "30ft/9m aluminum speed catamaran, cabin cruiser, fishing boat, luxury yacht — outboard engine, 30–35 knots, capacity 12",
+      "moq": "1 unit",
+      "priceRange": "$59,900 / unit",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/30ft-9m-Aluminum-Speed-Power-Boat_1601614252816.html",
+      "website": "",
+      "notes": "14yr Gold Supplier. 5.0★ (175 reviews). CE certified. Marine grade aluminum 5083. 3.5m beam, EVA teak floor. 120-day lead time. 3–5yr warranty. Custom colors available. Visit same day as MFR-009 (Qingdao Sunlit).",
+      "addedDate": "2026-05-13"
+    },
     {
       "id": "MFR-021",
       "name": "Zhejiang Lijiujia Sports Equipment Co., Ltd.",
