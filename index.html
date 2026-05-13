@@ -209,6 +209,22 @@
     .badge-price { background: #3d2a1e; color: #f4b06d; border: 1px solid #80502e; }
     .badge-gold { background: #3d3510; color: #f7d14f; border: 1px solid #806c1a; }
     .badge-visit { background: #1a3d2a; color: #4caf82; border: 1px solid #2e6040; }
+    .mfr-details { display: none; margin-top: 8px; }
+    .mfr-details.open { display: block; }
+    .btn-readmore {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: color .15s;
+    }
+    .btn-readmore:hover { color: var(--accent); }
     .mfr-notes { font-size: 12px; color: var(--muted); margin-top: 5px; font-style: italic; }
     .btn-link {
       font-size: 12px;
@@ -1039,16 +1055,19 @@ function mfrCardHtml(m, inCatView = false) {
           <span class="status-dot ${effectiveStatus}"></span>${m.name}
           ${m.goldSupplier ? '⭐' : ''}
         </div>
-        ${!inCatView && m.province ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">📍 ${m.city}, ${m.province}</div>` : ''}
-        <div class="mfr-meta">
-          <span class="badge badge-cat">${CATEGORY_ICONS[m.category]||'📦'} ${m.category}</span>
-          ${m.moq ? `<span class="badge badge-moq">MOQ: ${m.moq}</span>` : ''}
-          ${m.priceRange ? `<span class="badge badge-price">💰 ${m.priceRange}</span>` : ''}
-          ${m.goldSupplier ? `<span class="badge badge-gold">⭐ Gold Supplier</span>` : ''}
+        ${!inCatView && m.province ? `<div style="font-size:12px;color:var(--muted);margin-top:2px;">📍 ${m.city}, ${m.province}</div>` : ''}
+        <button class="btn-readmore" onclick="toggleDetails('${m.id}', this)">▼ Show details</button>
+        <div class="mfr-details" id="details-${m.id}">
+          <div class="mfr-meta">
+            <span class="badge badge-cat">${CATEGORY_ICONS[m.category]||'📦'} ${m.category}</span>
+            ${m.moq ? `<span class="badge badge-moq">MOQ: ${m.moq}</span>` : ''}
+            ${m.priceRange ? `<span class="badge badge-price">💰 ${m.priceRange}</span>` : ''}
+            ${m.goldSupplier ? `<span class="badge badge-gold">⭐ Gold Supplier</span>` : ''}
+          </div>
+          ${m.products ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;">Products: ${m.products}</div>` : ''}
+          ${m.notes ? `<div class="mfr-notes">${m.notes}</div>` : ''}
+          ${visitBadge}
         </div>
-        ${m.products ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;">Products: ${m.products}</div>` : ''}
-        ${m.notes ? `<div class="mfr-notes">${m.notes}</div>` : ''}
-        ${visitBadge}
       </div>
       <div class="mfr-links">
         ${m.alibabaUrl ? `<a class="btn-link" href="${m.alibabaUrl}" target="_blank">Alibaba ↗</a>` : ''}
@@ -1072,6 +1091,13 @@ function formatVisitDate(dateStr) {
   if (!dateStr) return '';
   const d = new Date(dateStr + 'T00:00:00');
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+function toggleDetails(id, btn) {
+  const details = document.getElementById('details-' + id);
+  if (!details) return;
+  const open = details.classList.toggle('open');
+  btn.textContent = open ? '▲ Hide details' : '▼ Show details';
 }
 
 function toggleCity(header) {
