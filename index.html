@@ -22,7 +22,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
 
-    /* TOP BAR */
+    /* ── TOP BAR ── */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -43,7 +43,7 @@
     .stat .num { font-size: 22px; font-weight: 800; color: var(--accent); }
     .stat .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
 
-    /* CONTROLS */
+    /* ── CONTROLS ── */
     .controls {
       padding: 16px 28px;
       display: flex;
@@ -77,8 +77,6 @@
       outline: none;
     }
     select:focus { border-color: var(--accent); }
-
-    /* SHOW DELETED TOGGLE */
     .show-deleted-label {
       display: flex;
       align-items: center;
@@ -95,8 +93,6 @@
     }
     .show-deleted-label:hover { border-color: var(--red); color: var(--red); }
     .show-deleted-label input { accent-color: var(--red); cursor: pointer; }
-
-    /* VIEW TABS */
     .view-tabs {
       display: flex;
       gap: 4px;
@@ -116,10 +112,10 @@
     }
     .view-tab.active { background: var(--accent); color: #fff; font-weight: 600; }
 
-    /* MAIN LAYOUT */
+    /* ── MAIN LAYOUT ── */
     .main { padding: 24px 28px; }
 
-    /* CITY VIEW */
+    /* ── CITY VIEW ── */
     .city-region { margin-bottom: 32px; }
     .region-header {
       font-size: 11px;
@@ -167,7 +163,7 @@
       color: var(--muted);
     }
 
-    /* MANUFACTURER CARDS */
+    /* ── MANUFACTURER CARDS ── */
     .mfr-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
     .mfr-card {
       background: var(--bg);
@@ -185,18 +181,15 @@
       border-color: var(--red);
       border-style: dashed;
     }
+    .mfr-card.has-visit { border-left: 3px solid var(--green); }
     .mfr-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
     .mfr-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
-    .badge {
-      font-size: 11px;
-      padding: 3px 9px;
-      border-radius: 20px;
-      font-weight: 600;
-    }
+    .badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; }
     .badge-cat { background: #1e2d5a; color: #7aabff; border: 1px solid #2e4080; }
     .badge-moq { background: #1e3d2a; color: #6fd4a1; border: 1px solid #2e6040; }
     .badge-price { background: #3d2a1e; color: #f4b06d; border: 1px solid #80502e; }
     .badge-gold { background: #3d3510; color: #f7d14f; border: 1px solid #806c1a; }
+    .badge-visit { background: #1a3d2a; color: #4caf82; border: 1px solid #2e6040; }
     .mfr-notes { font-size: 12px; color: var(--muted); margin-top: 5px; font-style: italic; }
     .mfr-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
     .btn-link {
@@ -212,8 +205,6 @@
       text-align: center;
     }
     .btn-link:hover { background: var(--border); }
-
-    /* CONTACT TOGGLE BUTTON */
     .btn-contact {
       font-size: 11px;
       padding: 4px 10px;
@@ -224,27 +215,28 @@
       transition: all .15s;
       white-space: nowrap;
     }
-    .btn-contact.not-contacted {
-      background: #1e2d5a;
-      border-color: #2e4080;
-      color: #7aabff;
-    }
-    .btn-contact.not-contacted:hover {
-      background: #2a3d7a;
-      border-color: var(--accent);
-      color: #fff;
-    }
-    .btn-contact.is-contacted {
-      background: #3d3510;
-      border-color: #806c1a;
-      color: var(--yellow);
-    }
-    .btn-contact.is-contacted:hover {
-      background: #4d4515;
-      border-color: var(--yellow);
-    }
+    .btn-contact.not-contacted { background: #1e2d5a; border-color: #2e4080; color: #7aabff; }
+    .btn-contact.not-contacted:hover { background: #2a3d7a; border-color: var(--accent); color: #fff; }
+    .btn-contact.is-contacted { background: #3d3510; border-color: #806c1a; color: var(--yellow); }
+    .btn-contact.is-contacted:hover { background: #4d4515; border-color: var(--yellow); }
 
-    /* DELETE BUTTON */
+    /* ── SCHEDULE / CALENDAR BUTTON ── */
+    .btn-schedule {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #1a4030;
+      background: #112a1e;
+      color: #4caf82;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .btn-schedule:hover { background: #1a3d2a; border-color: var(--green); color: #fff; }
+    .btn-schedule.has-event { background: #1a3d2a; border-color: var(--green); color: var(--green); }
+    .btn-schedule.has-event:hover { background: var(--green); color: #000; }
+
     .btn-delete {
       font-size: 11px;
       padding: 3px 8px;
@@ -256,11 +248,7 @@
       transition: all .15s;
       font-weight: 600;
     }
-    .btn-delete:hover {
-      background: #3a1f1f;
-      border-color: var(--red);
-      color: var(--red);
-    }
+    .btn-delete:hover { background: #3a1f1f; border-color: var(--red); color: var(--red); }
     .btn-restore {
       font-size: 11px;
       padding: 3px 8px;
@@ -272,32 +260,20 @@
       transition: all .15s;
       font-weight: 600;
     }
-    .btn-restore:hover {
-      background: var(--red);
-      color: #fff;
-      border-color: var(--red);
-    }
+    .btn-restore:hover { background: var(--red); color: #fff; border-color: var(--red); }
 
     .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 4px;
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block; margin-right: 4px;
     }
     .status-dot.contacted { background: var(--yellow); }
-    .status-dot.scheduled { background: var(--green); }
-    .status-dot.new { background: var(--accent); }
-    .status-dot.rejected { background: var(--red); }
+    .status-dot.scheduled  { background: var(--green); }
+    .status-dot.new        { background: var(--accent); }
+    .status-dot.rejected   { background: var(--red); }
 
-    /* CATEGORY VIEW */
+    /* ── CATEGORY VIEW ── */
     .cat-section { margin-bottom: 32px; }
-    .cat-section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
+    .cat-section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
     .cat-icon { font-size: 22px; }
     .cat-title { font-size: 18px; font-weight: 700; }
     .cat-divider { flex: 1; height: 1px; background: var(--border); }
@@ -316,24 +292,15 @@
     }
     .cat-card:hover { border-color: var(--accent); }
     .cat-card .mfr-name { font-size: 14px; }
-    .cat-card .city-label {
-      font-size: 12px;
-      color: var(--accent2);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
+    .cat-card .city-label { font-size: 12px; color: var(--accent2); margin-bottom: 6px; font-weight: 600; }
 
-    /* EMPTY STATE */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--muted);
-    }
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
     .empty-state .big-icon { font-size: 52px; margin-bottom: 16px; }
     .empty-state h2 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
     .empty-state p { font-size: 14px; line-height: 1.6; max-width: 380px; margin: 0 auto; }
 
-    /* TRIP ITINERARY HINT */
+    /* ── ITINERARY BAR ── */
     .itinerary-bar {
       background: linear-gradient(135deg, #1a2550 0%, #1e1a40 100%);
       border: 1px solid #3040a0;
@@ -348,16 +315,112 @@
     .itinerary-bar h3 { font-size: 14px; font-weight: 700; }
     .itinerary-bar p { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-    /* TOOLTIP */
-    [title] { cursor: help; }
+    /* ── SCHEDULE MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      width: 440px;
+      max-width: 95vw;
+      box-shadow: 0 24px 60px rgba(0,0,0,.5);
+      position: relative;
+    }
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .modal-title { font-size: 16px; font-weight: 700; }
+    .modal-subtitle { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+    .modal-close:hover { color: var(--text); }
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .form-input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+    }
+    .form-input:focus { border-color: var(--accent); }
+    .form-input::placeholder { color: var(--muted); }
+    .time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal-info {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .modal-info strong { color: var(--text); }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-cal {
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: opacity .15s;
+    }
+    .btn-cal:hover { opacity: .85; }
+    .btn-cal-primary { background: #1a73e8; color: #fff; }
+    .btn-cal-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+    .visit-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--green);
+      background: #1a3d2a;
+      border: 1px solid #2e6040;
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
 
-    /* RESPONSIVE */
+    [title] { cursor: help; }
     @media (max-width: 640px) {
       header { flex-direction: column; gap: 12px; }
       .stats-bar { justify-content: center; }
       .main { padding: 16px; }
     }
-
     .hidden { display: none !important; }
     .collapsed .mfr-list { display: none; }
   </style>
@@ -377,6 +440,7 @@
     <div class="stat"><div class="num" id="stat-cities">0</div><div class="label">Cities</div></div>
     <div class="stat"><div class="num" id="stat-cats">0</div><div class="label">Categories</div></div>
     <div class="stat"><div class="num" id="stat-contacted">0</div><div class="label">Contacted</div></div>
+    <div class="stat"><div class="num" id="stat-scheduled">0</div><div class="label">Scheduled</div></div>
   </div>
 </header>
 
@@ -389,7 +453,7 @@
     <option value="">All Statuses</option>
     <option value="new">New</option>
     <option value="contacted">Contacted</option>
-    <option value="scheduled">Visit Scheduled</option>
+    <option value="visit-scheduled">Visit Scheduled</option>
     <option value="rejected">Rejected</option>
   </select>
   <label class="show-deleted-label">
@@ -404,76 +468,99 @@
 
 <div class="main" id="main-content"></div>
 
+<!-- ── SCHEDULE MODAL ── -->
+<div class="modal-overlay" id="schedule-modal" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-mfr-name">Schedule Factory Visit</div>
+        <div class="modal-subtitle" id="modal-mfr-city"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-info" id="modal-mfr-info"></div>
+
+    <div class="form-group">
+      <label class="form-label" for="visit-date">Visit date</label>
+      <input class="form-input" type="date" id="visit-date" />
+    </div>
+    <div class="time-row form-group">
+      <div>
+        <label class="form-label" for="visit-start">Start time</label>
+        <input class="form-input" type="time" id="visit-start" value="09:00" />
+      </div>
+      <div>
+        <label class="form-label" for="visit-end">End time</label>
+        <input class="form-input" type="time" id="visit-end" value="11:00" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="visit-notes">Extra notes (optional)</label>
+      <textarea class="form-input" id="visit-notes" rows="2" placeholder="e.g. Ask about bulk pricing, request samples…"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cal btn-cal-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-cal btn-cal-primary" onclick="openGoogleCalendar()">📅 Open in Google Calendar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const CATEGORY_ICONS = {
-  "Sportswear": "⚽",
-  "Footwear": "👟",
-  "Accessories": "🧢",
-  "Training Equipment": "🏋️",
-  "Marine / Boats": "⛵",
-  "Electric Vehicles": "⚡",
-  "Motorcycles": "🏍️",
-  "Quads / ATVs": "🛺",
-  "Prefab Homes": "🏠",
-  "Other": "📦"
+  "Sportswear": "⚽", "Footwear": "👟", "Accessories": "🧢",
+  "Training Equipment": "🏋️", "Marine / Boats": "⛵", "Electric Vehicles": "⚡",
+  "Motorcycles": "🏍️", "Quads / ATVs": "🛺", "Prefab Homes": "🏠", "Other": "📦"
 };
-
 const STATUS_LABELS = {
-  new: "New",
-  contacted: "Contacted",
-  scheduled: "Visit Scheduled",
-  rejected: "Rejected"
+  new: "New", contacted: "Contacted", scheduled: "Visit Scheduled", rejected: "Rejected"
 };
 
-const LS_CONTACTED = 'mfr_contacted'; // Set of IDs the user toggled as contacted locally
-const LS_DELETED   = 'mfr_deleted';   // Set of IDs the user deleted locally
+const LS_CONTACTED = 'mfr_contacted';
+const LS_DELETED   = 'mfr_deleted';
+const LS_VISITS    = 'mfr_visits'; // { [id]: { date, start, end, notes } }
 
 let allData = null;
 let currentView = 'city';
 let filters = { search: '', cat: '', status: '' };
+let modalMfr = null; // manufacturer currently open in modal
 
-// ── localStorage helpers ──────────────────────────────────────────────────────
+// ── localStorage helpers ────────────────────────────────────────────────────
 
 function lsGetSet(key) {
   try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
   catch { return new Set(); }
 }
-
 function lsSaveSet(key, set) {
   localStorage.setItem(key, JSON.stringify([...set]));
 }
-
-function isContacted(id) {
-  return lsGetSet(LS_CONTACTED).has(id);
+function lsGetObj(key) {
+  try { return JSON.parse(localStorage.getItem(key) || '{}'); }
+  catch { return {}; }
 }
+function lsSaveObj(key, obj) {
+  localStorage.setItem(key, JSON.stringify(obj));
+}
+
+function isContacted(id) { return lsGetSet(LS_CONTACTED).has(id); }
+function isDeleted(id)   { return lsGetSet(LS_DELETED).has(id); }
+function getVisit(id)    { return lsGetObj(LS_VISITS)[id] || null; }
 
 function toggleContacted(id) {
   const set = lsGetSet(LS_CONTACTED);
   set.has(id) ? set.delete(id) : set.add(id);
   lsSaveSet(LS_CONTACTED, set);
-  // Update the button and dot in place without a full re-render
   const card = document.querySelector(`[data-mfr-id="${id}"]`);
   if (!card) return;
+  const contacted = set.has(id);
   const btn = card.querySelector('.btn-contact');
   const dot = card.querySelector('.status-dot');
-  const statusLabel = card.querySelector('.status-inline-label');
-  const contacted = set.has(id);
-  if (btn) {
-    btn.textContent = contacted ? '✓ Contacted' : '✉ Mark contacted';
-    btn.className = 'btn-contact ' + (contacted ? 'is-contacted' : 'not-contacted');
-  }
-  if (dot) {
-    dot.className = 'status-dot ' + (contacted ? 'contacted' : 'new');
-  }
-  if (statusLabel) {
-    statusLabel.textContent = contacted ? 'Contacted' : 'New';
-    statusLabel.style.color = contacted ? 'var(--yellow)' : 'var(--accent)';
-  }
+  const lbl = card.querySelector('.status-inline-label');
+  if (btn) { btn.textContent = contacted ? '✓ Contacted' : '✉ Mark contacted'; btn.className = 'btn-contact ' + (contacted ? 'is-contacted' : 'not-contacted'); }
+  if (dot) dot.className = 'status-dot ' + (contacted ? 'contacted' : 'new');
+  if (lbl) { lbl.textContent = contacted ? 'Contacted' : 'New'; lbl.style.color = contacted ? 'var(--yellow)' : 'var(--accent)'; }
   updateStats();
-}
-
-function isDeleted(id) {
-  return lsGetSet(LS_DELETED).has(id);
 }
 
 function toggleDelete(id) {
@@ -483,7 +570,80 @@ function toggleDelete(id) {
   render();
 }
 
-// ── Data loading ──────────────────────────────────────────────────────────────
+// ── Schedule modal ──────────────────────────────────────────────────────────
+
+function openScheduleModal(id) {
+  const m = allData.manufacturers.find(x => x.id === id);
+  if (!m) return;
+  modalMfr = m;
+
+  document.getElementById('modal-mfr-name').textContent = m.name;
+  document.getElementById('modal-mfr-city').textContent = `📍 ${m.city}${m.province ? ', ' + m.province : ''}, China`;
+
+  const parts = [];
+  if (m.category) parts.push(`Category: ${m.category}`);
+  if (m.products) parts.push(`Products: ${m.products}`);
+  if (m.moq) parts.push(`MOQ: ${m.moq}`);
+  if (m.priceRange) parts.push(`Price: ${m.priceRange}`);
+  document.getElementById('modal-mfr-info').innerHTML = parts.map(p => `<strong>${p.split(':')[0]}:</strong>${p.slice(p.indexOf(':'))}`).join(' &nbsp;·&nbsp; ');
+
+  // Pre-fill from saved visit if any
+  const saved = getVisit(id);
+  document.getElementById('visit-date').value  = saved?.date  || '';
+  document.getElementById('visit-start').value = saved?.start || '09:00';
+  document.getElementById('visit-end').value   = saved?.end   || '11:00';
+  document.getElementById('visit-notes').value = saved?.notes || '';
+
+  document.getElementById('schedule-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('schedule-modal').classList.remove('open');
+  modalMfr = null;
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('schedule-modal')) closeModal();
+}
+
+function openGoogleCalendar() {
+  if (!modalMfr) return;
+  const date  = document.getElementById('visit-date').value;
+  const start = document.getElementById('visit-start').value;
+  const end   = document.getElementById('visit-end').value;
+  const notes = document.getElementById('visit-notes').value.trim();
+
+  if (!date) { document.getElementById('visit-date').focus(); return; }
+
+  // Save to localStorage so the badge appears on the card
+  const visits = lsGetObj(LS_VISITS);
+  visits[modalMfr.id] = { date, start, end, notes };
+  lsSaveObj(LS_VISITS, visits);
+
+  // Build Google Calendar URL (YYYYMMDDTHHMMSS format, no dashes/colons)
+  const fmt = (d, t) => `${d.replace(/-/g, '')}T${t.replace(/:/g, '')}00`;
+  const startFmt = fmt(date, start);
+  const endFmt   = fmt(date, end);
+
+  const title = encodeURIComponent(`Factory Visit: ${modalMfr.name}`);
+  const location = encodeURIComponent(`${modalMfr.city}${modalMfr.province ? ', ' + modalMfr.province : ''}, China`);
+
+  let details = `Factory visit — ${modalMfr.category}`;
+  if (modalMfr.products) details += `\nProducts: ${modalMfr.products}`;
+  if (modalMfr.moq)      details += `\nMOQ: ${modalMfr.moq}`;
+  if (modalMfr.priceRange) details += `\nPrice range: ${modalMfr.priceRange}`;
+  if (modalMfr.alibabaUrl) details += `\nAlibaba: ${modalMfr.alibabaUrl}`;
+  if (notes) details += `\n\nNotes: ${notes}`;
+  const detailsEnc = encodeURIComponent(details);
+
+  const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startFmt}/${endFmt}&location=${location}&details=${detailsEnc}`;
+  window.open(calUrl, '_blank');
+
+  closeModal();
+  render(); // refresh badges
+}
+
+// ── Data loading ────────────────────────────────────────────────────────────
 
 async function loadData() {
   try {
@@ -502,14 +662,11 @@ function init() {
     opt.value = c; opt.textContent = `${CATEGORY_ICONS[c] || '📦'} ${c}`;
     sel.appendChild(opt);
   });
-
   document.getElementById('search').addEventListener('input', e => { filters.search = e.target.value.toLowerCase(); render(); });
   document.getElementById('filter-cat').addEventListener('change', e => { filters.cat = e.target.value; render(); });
   document.getElementById('filter-status').addEventListener('change', e => { filters.status = e.target.value; render(); });
-
   updateStats();
   render();
-
   document.getElementById('last-updated').textContent = `Trip owner: ${allData.meta.tripOwner} · Last updated: ${allData.meta.lastUpdated}`;
 }
 
@@ -517,8 +674,7 @@ function getFiltered() {
   const showDeleted = document.getElementById('show-deleted')?.checked;
   return allData.manufacturers.filter(m => {
     if (!showDeleted && isDeleted(m.id)) return false;
-    // When filtering by "contacted" status, include locally-toggled ones too
-    const effectiveStatus = isContacted(m.id) ? 'contacted' : m.status;
+    const effectiveStatus = getVisit(m.id) ? 'visit-scheduled' : isContacted(m.id) ? 'contacted' : m.status;
     if (filters.search && !JSON.stringify(m).toLowerCase().includes(filters.search)) return false;
     if (filters.cat && m.category !== filters.cat) return false;
     if (filters.status && effectiveStatus !== filters.status) return false;
@@ -528,15 +684,12 @@ function getFiltered() {
 
 function updateStats() {
   if (!allData) return;
-  const mfrs = allData.manufacturers;
-  const visible = mfrs.filter(m => !isDeleted(m.id));
-  const cities = new Set(visible.map(m => m.city)).size;
-  const cats = new Set(visible.map(m => m.category)).size;
-  const contacted = visible.filter(m => isContacted(m.id) || m.status === 'contacted').length;
-  document.getElementById('stat-total').textContent = visible.length;
-  document.getElementById('stat-cities').textContent = cities;
-  document.getElementById('stat-cats').textContent = cats;
-  document.getElementById('stat-contacted').textContent = contacted;
+  const visible = allData.manufacturers.filter(m => !isDeleted(m.id));
+  document.getElementById('stat-total').textContent     = visible.length;
+  document.getElementById('stat-cities').textContent    = new Set(visible.map(m => m.city)).size;
+  document.getElementById('stat-cats').textContent      = new Set(visible.map(m => m.category)).size;
+  document.getElementById('stat-contacted').textContent = visible.filter(m => isContacted(m.id) || m.status === 'contacted').length;
+  document.getElementById('stat-scheduled').textContent = visible.filter(m => getVisit(m.id)).length;
 }
 
 function switchView(view, btn) {
@@ -549,65 +702,49 @@ function switchView(view, btn) {
 function render() {
   const filtered = getFiltered();
   const container = document.getElementById('main-content');
-
   if (allData.manufacturers.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="big-icon">🗺️</div>
-        <h2>No manufacturers yet</h2>
-        <p>Paste an Alibaba listing URL to Claude Code and it will automatically extract and sort the manufacturer info here.</p>
-      </div>`;
+    container.innerHTML = `<div class="empty-state"><div class="big-icon">🗺️</div><h2>No manufacturers yet</h2><p>Paste an Alibaba listing URL to Claude Code and it will automatically extract and sort the manufacturer info here.</p></div>`;
     return;
   }
-
   if (filtered.length === 0) {
     container.innerHTML = `<div class="empty-state"><div class="big-icon">🔍</div><h2>No matches</h2><p>Try adjusting your search or filters.</p></div>`;
     return;
   }
-
   if (currentView === 'city') renderCityView(filtered, container);
   else renderCategoryView(filtered, container);
-
   updateStats();
 }
 
 function renderCityView(filtered, container) {
   const byRegion = {};
-
   for (const [region, cities] of Object.entries(allData.cityRegions)) {
     for (const city of cities) {
       const items = filtered.filter(m => m.city === city);
-      if (items.length === 0) continue;
+      if (!items.length) continue;
       if (!byRegion[region]) byRegion[region] = {};
       byRegion[region][city] = items;
     }
   }
-
   const allKnownCities = Object.values(allData.cityRegions).flat();
-  const unknownCities = [...new Set(filtered.filter(m => !allKnownCities.includes(m.city)).map(m => m.city))];
-  unknownCities.forEach(city => {
+  [...new Set(filtered.filter(m => !allKnownCities.includes(m.city)).map(m => m.city))].forEach(city => {
     const items = filtered.filter(m => m.city === city);
     if (!byRegion['Other']) byRegion['Other'] = {};
     byRegion['Other'][city] = items;
   });
 
   let html = '';
-
-  if (allData.manufacturers.length > 0) {
-    const citiesWithData = [...new Set(allData.manufacturers.map(m => m.city))];
-    html += `<div class="itinerary-bar">
-      <div class="icon">✈️</div>
-      <div>
-        <h3>Trip planning tip</h3>
-        <p>You have manufacturers in <strong>${citiesWithData.length} cities</strong>. Group nearby cities to minimize travel. Pearl River Delta (Guangzhou–Dongguan–Shenzhen) can be done in 2–3 days by car.</p>
-      </div>
-    </div>`;
-  }
+  const citiesWithData = [...new Set(allData.manufacturers.map(m => m.city))];
+  html += `<div class="itinerary-bar">
+    <div class="icon">✈️</div>
+    <div>
+      <h3>Trip planning tip</h3>
+      <p>You have manufacturers in <strong>${citiesWithData.length} cities</strong>. Group nearby cities to minimize travel. Pearl River Delta (Guangzhou–Dongguan–Shenzhen) can be done in 2–3 days by car.</p>
+    </div>
+  </div>`;
 
   for (const [region, cities] of Object.entries(byRegion)) {
-    if (Object.keys(cities).length === 0) continue;
+    if (!Object.keys(cities).length) continue;
     html += `<div class="city-region"><div class="region-header">📍 ${region}</div><div class="city-grid">`;
-
     for (const [city, items] of Object.entries(cities)) {
       const cats = [...new Set(items.map(m => m.category))];
       html += `<div class="city-block">
@@ -617,29 +754,21 @@ function renderCityView(filtered, container) {
           <div class="city-cats">${cats.map(c => `<span class="cat-chip">${CATEGORY_ICONS[c]||'📦'} ${c}</span>`).join('')}</div>
           <span class="city-count">${items.length}</span>
         </div>
-        <div class="mfr-list">
-          ${items.map(m => mfrCardHtml(m)).join('')}
-        </div>
+        <div class="mfr-list">${items.map(m => mfrCardHtml(m)).join('')}</div>
       </div>`;
     }
-
     html += `</div></div>`;
   }
-
   container.innerHTML = html;
 }
 
 function renderCategoryView(filtered, container) {
   const byCat = {};
   allData.categories.forEach(c => byCat[c] = []);
-  filtered.forEach(m => {
-    if (!byCat[m.category]) byCat[m.category] = [];
-    byCat[m.category].push(m);
-  });
-
+  filtered.forEach(m => { if (!byCat[m.category]) byCat[m.category] = []; byCat[m.category].push(m); });
   let html = '';
   for (const [cat, items] of Object.entries(byCat)) {
-    if (items.length === 0) continue;
+    if (!items.length) continue;
     const icon = CATEGORY_ICONS[cat] || '📦';
     html += `<div class="cat-section">
       <div class="cat-section-header">
@@ -656,20 +785,28 @@ function renderCategoryView(filtered, container) {
       </div>
     </div>`;
   }
-
   container.innerHTML = html;
 }
 
 function mfrCardHtml(m, inCatView = false) {
   const contacted = isContacted(m.id);
-  const deleted = isDeleted(m.id);
+  const deleted   = isDeleted(m.id);
+  const visit     = getVisit(m.id);
 
-  // Effective status: local toggle wins over JSON status
-  const effectiveStatus = contacted ? 'contacted' : m.status;
+  const effectiveStatus = visit ? 'scheduled' : contacted ? 'contacted' : m.status;
   const statusColors = { new: '#4f8ef7', contacted: '#f7d14f', scheduled: '#4caf82', rejected: '#f76d6d' };
   const statusColor = statusColors[effectiveStatus] || '#4f8ef7';
+  const statusText  = visit ? 'Visit Scheduled' : (contacted ? 'Contacted' : (STATUS_LABELS[m.status] || 'New'));
 
-  return `<div class="mfr-card${deleted ? ' is-deleted' : ''}" data-mfr-id="${m.id}">
+  const visitBadge = visit
+    ? `<div class="visit-badge">📅 ${formatVisitDate(visit.date)} ${visit.start}–${visit.end}</div>`
+    : '';
+
+  const scheduleBtn = visit
+    ? `<button class="btn-schedule has-event" onclick="openScheduleModal('${m.id}')">📅 Edit visit</button>`
+    : `<button class="btn-schedule" onclick="openScheduleModal('${m.id}')">📅 Schedule visit</button>`;
+
+  return `<div class="mfr-card${deleted ? ' is-deleted' : ''}${visit ? ' has-visit' : ''}" data-mfr-id="${m.id}">
     <div>
       <div class="mfr-name">
         <span class="status-dot ${effectiveStatus}"></span>${m.name}
@@ -684,20 +821,27 @@ function mfrCardHtml(m, inCatView = false) {
       </div>
       ${m.products ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;">Products: ${m.products}</div>` : ''}
       ${m.notes ? `<div class="mfr-notes">${m.notes}</div>` : ''}
+      ${visitBadge}
     </div>
     <div class="mfr-actions">
       ${m.alibabaUrl ? `<a class="btn-link" href="${m.alibabaUrl}" target="_blank">Alibaba ↗</a>` : ''}
       ${m.website ? `<a class="btn-link" href="${m.website}" target="_blank">Website ↗</a>` : ''}
-      <span class="status-inline-label" style="font-size:11px;color:${statusColor};font-weight:600;">${STATUS_LABELS[effectiveStatus]||'New'}</span>
+      <span class="status-inline-label" style="font-size:11px;color:${statusColor};font-weight:600;">${statusText}</span>
       <button class="btn-contact ${contacted ? 'is-contacted' : 'not-contacted'}" onclick="toggleContacted('${m.id}')">
         ${contacted ? '✓ Contacted' : '✉ Mark contacted'}
       </button>
+      ${scheduleBtn}
       ${deleted
         ? `<button class="btn-restore" onclick="toggleDelete('${m.id}')">↩ Restore</button>`
-        : `<button class="btn-delete" onclick="toggleDelete('${m.id}')">✕ Delete</button>`
-      }
+        : `<button class="btn-delete" onclick="toggleDelete('${m.id}')">✕ Delete</button>`}
     </div>
   </div>`;
+}
+
+function formatVisitDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 }
 
 function toggleCity(header) {
