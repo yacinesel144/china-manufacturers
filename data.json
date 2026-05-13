@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "tripOwner": "Anasse Ataya",
+    "lastUpdated": "2026-05-13",
+    "totalManufacturers": 1
+  },
+  "categories": [
+    "Sportswear",
+    "Footwear",
+    "Accessories",
+    "Training Equipment",
+    "Marine / Boats",
+    "Electric Vehicles",
+    "Motorcycles",
+    "Quads / ATVs",
+    "Prefab Homes",
+    "Other"
+  ],
+  "cityRegions": {
+    "Guangdong Province": ["Guangzhou", "Shenzhen", "Dongguan", "Foshan", "Zhongshan"],
+    "Fujian Province": ["Jinjiang", "Quanzhou", "Xiamen", "Fuzhou"],
+    "Zhejiang Province": ["Yiwu", "Wenzhou", "Hangzhou", "Ningbo", "Huzhou"],
+    "Shandong Province": ["Qingdao", "Weihai", "Jinan"],
+    "Chongqing / Sichuan": ["Chongqing", "Chengdu"],
+    "Shanghai / Jiangsu": ["Shanghai", "Nanjing", "Suzhou"],
+    "Other": []
+  },
+  "manufacturers": [
+    {
+      "id": "SAMPLE-001",
+      "name": "SAMPLE — Replace me",
+      "city": "Jinjiang",
+      "province": "Fujian Province",
+      "category": "Footwear",
+      "products": "Football boots, training shoes, sneakers",
+      "moq": "300 pairs",
+      "priceRange": "$8–$22 / pair",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "",
+      "website": "",
+      "notes": "This is a placeholder. Paste an Alibaba URL to Claude and it will add real entries.",
+      "addedDate": "2026-05-13"
+    }
+  ]
+}

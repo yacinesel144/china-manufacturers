@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>China Manufacturers — Trip Tracker</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent: #4f8ef7;
+      --accent2: #f7934f;
+      --text: #e8eaf6;
+      --muted: #7b82a8;
+      --green: #4caf82;
+      --red: #f76d6d;
+      --yellow: #f7d14f;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+
+    /* TOP BAR */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon { font-size: 26px; }
+    .logo h1 { font-size: 18px; font-weight: 700; color: var(--text); }
+    .logo p { font-size: 12px; color: var(--muted); }
+    .stats-bar { display: flex; gap: 24px; }
+    .stat { text-align: center; }
+    .stat .num { font-size: 22px; font-weight: 800; color: var(--accent); }
+    .stat .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+
+    /* CONTROLS */
+    .controls {
+      padding: 16px 28px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .search-box {
+      flex: 1;
+      min-width: 220px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 14px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+    .search-box:focus { border-color: var(--accent); }
+    .search-box::placeholder { color: var(--muted); }
+    select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 14px;
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+    }
+    select:focus { border-color: var(--accent); }
+
+    /* VIEW TABS */
+    .view-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface2);
+      border-radius: var(--radius);
+      padding: 3px;
+    }
+    .view-tab {
+      padding: 6px 14px;
+      border-radius: 7px;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      transition: all .15s;
+    }
+    .view-tab.active { background: var(--accent); color: #fff; font-weight: 600; }
+
+    /* MAIN LAYOUT */
+    .main { padding: 24px 28px; }
+
+    /* CITY VIEW */
+    .city-region { margin-bottom: 32px; }
+    .region-header {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .city-grid { display: flex; flex-direction: column; gap: 16px; }
+    .city-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .city-header {
+      background: var(--surface2);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .city-header:hover { background: #2a2e48; }
+    .city-name { font-weight: 700; font-size: 15px; }
+    .city-count {
+      margin-left: auto;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .city-cats { display: flex; gap: 6px; flex-wrap: wrap; }
+    .cat-chip {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* MANUFACTURER CARDS */
+    .mfr-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .mfr-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      transition: border-color .15s;
+    }
+    .mfr-card:hover { border-color: var(--accent); }
+    .mfr-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .mfr-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
+    .badge {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .badge-cat { background: #1e2d5a; color: #7aabff; border: 1px solid #2e4080; }
+    .badge-moq { background: #1e3d2a; color: #6fd4a1; border: 1px solid #2e6040; }
+    .badge-price { background: #3d2a1e; color: #f4b06d; border: 1px solid #80502e; }
+    .badge-gold { background: #3d3510; color: #f7d14f; border: 1px solid #806c1a; }
+    .badge-status-hot { background: #3d1e1e; color: #f78080; border: 1px solid #8a3030; }
+    .badge-status-ok { background: #1e2d3d; color: #80b4f7; border: 1px solid #2e5080; }
+    .mfr-notes { font-size: 12px; color: var(--muted); margin-top: 5px; font-style: italic; }
+    .mfr-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+    .btn-link {
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn-link:hover { background: var(--border); }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    .status-dot.contacted { background: var(--yellow); }
+    .status-dot.scheduled { background: var(--green); }
+    .status-dot.new { background: var(--accent); }
+    .status-dot.rejected { background: var(--red); }
+
+    /* CATEGORY VIEW */
+    .cat-section { margin-bottom: 32px; }
+    .cat-section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .cat-icon { font-size: 22px; }
+    .cat-title { font-size: 18px; font-weight: 700; }
+    .cat-divider { flex: 1; height: 1px; background: var(--border); }
+    .cat-count { color: var(--muted); font-size: 13px; }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 12px;
+    }
+    .cat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      transition: border-color .15s;
+    }
+    .cat-card:hover { border-color: var(--accent); }
+    .cat-card .mfr-name { font-size: 14px; }
+    .cat-card .city-label {
+      font-size: 12px;
+      color: var(--accent2);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state .big-icon { font-size: 52px; margin-bottom: 16px; }
+    .empty-state h2 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
+    .empty-state p { font-size: 14px; line-height: 1.6; max-width: 380px; margin: 0 auto; }
+
+    /* TRIP ITINERARY HINT */
+    .itinerary-bar {
+      background: linear-gradient(135deg, #1a2550 0%, #1e1a40 100%);
+      border: 1px solid #3040a0;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .itinerary-bar .icon { font-size: 24px; }
+    .itinerary-bar h3 { font-size: 14px; font-weight: 700; }
+    .itinerary-bar p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* TOOLTIP */
+    [title] { cursor: help; }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      header { flex-direction: column; gap: 12px; }
+      .stats-bar { justify-content: center; }
+      .main { padding: 16px; }
+    }
+
+    .hidden { display: none !important; }
+    .collapsed .mfr-list { display: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🇨🇳</div>
+    <div>
+      <h1>China Manufacturers Tracker</h1>
+      <p id="last-updated">Loading…</p>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat"><div class="num" id="stat-total">0</div><div class="label">Total</div></div>
+    <div class="stat"><div class="num" id="stat-cities">0</div><div class="label">Cities</div></div>
+    <div class="stat"><div class="num" id="stat-cats">0</div><div class="label">Categories</div></div>
+    <div class="stat"><div class="num" id="stat-scheduled">0</div><div class="label">Scheduled</div></div>
+  </div>
+</header>
+
+<div class="controls">
+  <input class="search-box" type="text" id="search" placeholder="Search by name, city, product…" />
+  <select id="filter-cat">
+    <option value="">All Categories</option>
+  </select>
+  <select id="filter-status">
+    <option value="">All Statuses</option>
+    <option value="new">New</option>
+    <option value="contacted">Contacted</option>
+    <option value="scheduled">Visit Scheduled</option>
+    <option value="rejected">Rejected</option>
+  </select>
+  <div class="view-tabs">
+    <button class="view-tab active" data-view="city" onclick="switchView('city', this)">By City</button>
+    <button class="view-tab" data-view="category" onclick="switchView('category', this)">By Category</button>
+  </div>
+</div>
+
+<div class="main" id="main-content"></div>
+
+<script>
+const CATEGORY_ICONS = {
+  "Sportswear": "⚽",
+  "Footwear": "👟",
+  "Accessories": "🧢",
+  "Training Equipment": "🏋️",
+  "Marine / Boats": "⛵",
+  "Electric Vehicles": "⚡",
+  "Motorcycles": "🏍️",
+  "Quads / ATVs": "🛺",
+  "Prefab Homes": "🏠",
+  "Other": "📦"
+};
+
+const STATUS_LABELS = {
+  new: "New",
+  contacted: "Contacted",
+  scheduled: "Visit Scheduled",
+  rejected: "Rejected"
+};
+
+let allData = null;
+let currentView = 'city';
+let filters = { search: '', cat: '', status: '' };
+
+async function loadData() {
+  try {
+    const res = await fetch('data.json?t=' + Date.now());
+    allData = await res.json();
+    init();
+  } catch(e) {
+    document.getElementById('main-content').innerHTML = `<div class="empty-state"><div class="big-icon">⚠️</div><h2>Could not load data.json</h2><p>Make sure data.json is in the same folder as this HTML file.</p></div>`;
+  }
+}
+
+function init() {
+  // Populate category filter
+  const sel = document.getElementById('filter-cat');
+  allData.categories.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = `${CATEGORY_ICONS[c] || '📦'} ${c}`;
+    sel.appendChild(opt);
+  });
+
+  document.getElementById('search').addEventListener('input', e => { filters.search = e.target.value.toLowerCase(); render(); });
+  document.getElementById('filter-cat').addEventListener('change', e => { filters.cat = e.target.value; render(); });
+  document.getElementById('filter-status').addEventListener('change', e => { filters.status = e.target.value; render(); });
+
+  updateStats();
+  render();
+
+  document.getElementById('last-updated').textContent = `Trip owner: ${allData.meta.tripOwner} · Last updated: ${allData.meta.lastUpdated}`;
+}
+
+function getFiltered() {
+  return allData.manufacturers.filter(m => {
+    if (filters.search && !JSON.stringify(m).toLowerCase().includes(filters.search)) return false;
+    if (filters.cat && m.category !== filters.cat) return false;
+    if (filters.status && m.status !== filters.status) return false;
+    return true;
+  });
+}
+
+function updateStats() {
+  const mfrs = allData.manufacturers;
+  const cities = new Set(mfrs.map(m => m.city)).size;
+  const cats = new Set(mfrs.map(m => m.category)).size;
+  const scheduled = mfrs.filter(m => m.status === 'scheduled').length;
+  document.getElementById('stat-total').textContent = mfrs.length;
+  document.getElementById('stat-cities').textContent = cities;
+  document.getElementById('stat-cats').textContent = cats;
+  document.getElementById('stat-scheduled').textContent = scheduled;
+}
+
+function switchView(view, btn) {
+  currentView = view;
+  document.querySelectorAll('.view-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function render() {
+  const filtered = getFiltered();
+  const container = document.getElementById('main-content');
+
+  if (allData.manufacturers.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="big-icon">🗺️</div>
+        <h2>No manufacturers yet</h2>
+        <p>Paste an Alibaba listing URL to Claude Code and it will automatically extract and sort the manufacturer info here.</p>
+      </div>`;
+    return;
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="big-icon">🔍</div><h2>No matches</h2><p>Try adjusting your search or filters.</p></div>`;
+    return;
+  }
+
+  if (currentView === 'city') renderCityView(filtered, container);
+  else renderCategoryView(filtered, container);
+}
+
+function renderCityView(filtered, container) {
+  const byRegion = {};
+
+  // Group by region → city
+  for (const [region, cities] of Object.entries(allData.cityRegions)) {
+    for (const city of cities) {
+      const items = filtered.filter(m => m.city === city);
+      if (items.length === 0) continue;
+      if (!byRegion[region]) byRegion[region] = {};
+      byRegion[region][city] = items;
+    }
+  }
+
+  // Manufacturers in cities not in the region map
+  const allKnownCities = Object.values(allData.cityRegions).flat();
+  const unknownCities = [...new Set(filtered.filter(m => !allKnownCities.includes(m.city)).map(m => m.city))];
+  unknownCities.forEach(city => {
+    const items = filtered.filter(m => m.city === city);
+    if (!byRegion['Other']) byRegion['Other'] = {};
+    byRegion['Other'][city] = items;
+  });
+
+  let html = '';
+
+  // Trip itinerary hint if we have data
+  if (allData.manufacturers.length > 0) {
+    const citiesWithData = [...new Set(allData.manufacturers.map(m => m.city))];
+    html += `<div class="itinerary-bar">
+      <div class="icon">✈️</div>
+      <div>
+        <h3>Trip planning tip</h3>
+        <p>You have manufacturers in <strong>${citiesWithData.length} cities</strong>. Group nearby cities to minimize travel. Pearl River Delta (Guangzhou–Dongguan–Shenzhen) can be done in 2–3 days by car.</p>
+      </div>
+    </div>`;
+  }
+
+  for (const [region, cities] of Object.entries(byRegion)) {
+    if (Object.keys(cities).length === 0) continue;
+    html += `<div class="city-region"><div class="region-header">📍 ${region}</div><div class="city-grid">`;
+
+    for (const [city, items] of Object.entries(cities)) {
+      const cats = [...new Set(items.map(m => m.category))];
+      html += `<div class="city-block">
+        <div class="city-header" onclick="toggleCity(this)">
+          <span style="font-size:18px">🏙️</span>
+          <span class="city-name">${city}</span>
+          <div class="city-cats">${cats.map(c => `<span class="cat-chip">${CATEGORY_ICONS[c]||'📦'} ${c}</span>`).join('')}</div>
+          <span class="city-count">${items.length}</span>
+        </div>
+        <div class="mfr-list">
+          ${items.map(m => mfrCardHtml(m)).join('')}
+        </div>
+      </div>`;
+    }
+
+    html += `</div></div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function renderCategoryView(filtered, container) {
+  const byCat = {};
+  allData.categories.forEach(c => byCat[c] = []);
+  filtered.forEach(m => {
+    if (!byCat[m.category]) byCat[m.category] = [];
+    byCat[m.category].push(m);
+  });
+
+  let html = '';
+  for (const [cat, items] of Object.entries(byCat)) {
+    if (items.length === 0) continue;
+    const icon = CATEGORY_ICONS[cat] || '📦';
+    html += `<div class="cat-section">
+      <div class="cat-section-header">
+        <span class="cat-icon">${icon}</span>
+        <span class="cat-title">${cat}</span>
+        <div class="cat-divider"></div>
+        <span class="cat-count">${items.length} manufacturer${items.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div class="cat-grid">
+        ${items.map(m => `<div class="cat-card">
+          <div class="city-label">📍 ${m.city}${m.province ? ', ' + m.province : ''}</div>
+          ${mfrCardHtml(m, true)}
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function mfrCardHtml(m, inCatView = false) {
+  const statusColors = { new: '#4f8ef7', contacted: '#f7d14f', scheduled: '#4caf82', rejected: '#f76d6d' };
+  const dotColor = statusColors[m.status] || '#4f8ef7';
+
+  return `<div class="mfr-card">
+    <div>
+      <div class="mfr-name">
+        <span class="status-dot ${m.status || 'new'}"></span>${m.name}
+        ${m.goldSupplier ? '⭐' : ''}
+      </div>
+      ${!inCatView && m.province ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">📍 ${m.city}, ${m.province}</div>` : ''}
+      <div class="mfr-meta">
+        <span class="badge badge-cat">${CATEGORY_ICONS[m.category]||'📦'} ${m.category}</span>
+        ${m.moq ? `<span class="badge badge-moq">MOQ: ${m.moq}</span>` : ''}
+        ${m.priceRange ? `<span class="badge badge-price">💰 ${m.priceRange}</span>` : ''}
+        ${m.goldSupplier ? `<span class="badge badge-gold">⭐ Gold Supplier</span>` : ''}
+      </div>
+      ${m.products ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;">Products: ${m.products}</div>` : ''}
+      ${m.notes ? `<div class="mfr-notes">${m.notes}</div>` : ''}
+    </div>
+    <div class="mfr-actions">
+      ${m.alibabaUrl ? `<a class="btn-link" href="${m.alibabaUrl}" target="_blank">Alibaba ↗</a>` : ''}
+      ${m.website ? `<a class="btn-link" href="${m.website}" target="_blank">Website ↗</a>` : ''}
+      <span style="font-size:11px;color:${dotColor};font-weight:600;">${STATUS_LABELS[m.status]||'New'}</span>
+    </div>
+  </div>`;
+}
+
+function toggleCity(header) {
+  header.parentElement.classList.toggle('collapsed');
+}
+
+loadData();
+</script>
+</body>
+</html>
