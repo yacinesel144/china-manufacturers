@@ -170,9 +170,9 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 14px 16px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       transition: border-color .15s;
     }
     .mfr-card:hover { border-color: var(--accent); }
@@ -182,6 +182,24 @@
       border-style: dashed;
     }
     .mfr-card.has-visit { border-left: 3px solid var(--green); }
+    /* top row: info + link buttons side by side */
+    .mfr-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+    }
+    .mfr-links { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+    /* bottom row: action buttons in a horizontal strip */
+    .mfr-bottom-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .mfr-bottom-actions .status-inline-label { margin-right: auto; }
     .mfr-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
     .mfr-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
     .badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; }
@@ -191,7 +209,6 @@
     .badge-gold { background: #3d3510; color: #f7d14f; border: 1px solid #806c1a; }
     .badge-visit { background: #1a3d2a; color: #4caf82; border: 1px solid #2e6040; }
     .mfr-notes { font-size: 12px; color: var(--muted); margin-top: 5px; font-style: italic; }
-    .mfr-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
     .btn-link {
       font-size: 12px;
       padding: 4px 12px;
@@ -807,25 +824,29 @@ function mfrCardHtml(m, inCatView = false) {
     : `<button class="btn-schedule" onclick="openScheduleModal('${m.id}')">📅 Schedule visit</button>`;
 
   return `<div class="mfr-card${deleted ? ' is-deleted' : ''}${visit ? ' has-visit' : ''}" data-mfr-id="${m.id}">
-    <div>
-      <div class="mfr-name">
-        <span class="status-dot ${effectiveStatus}"></span>${m.name}
-        ${m.goldSupplier ? '⭐' : ''}
+    <div class="mfr-top">
+      <div>
+        <div class="mfr-name">
+          <span class="status-dot ${effectiveStatus}"></span>${m.name}
+          ${m.goldSupplier ? '⭐' : ''}
+        </div>
+        ${!inCatView && m.province ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">📍 ${m.city}, ${m.province}</div>` : ''}
+        <div class="mfr-meta">
+          <span class="badge badge-cat">${CATEGORY_ICONS[m.category]||'📦'} ${m.category}</span>
+          ${m.moq ? `<span class="badge badge-moq">MOQ: ${m.moq}</span>` : ''}
+          ${m.priceRange ? `<span class="badge badge-price">💰 ${m.priceRange}</span>` : ''}
+          ${m.goldSupplier ? `<span class="badge badge-gold">⭐ Gold Supplier</span>` : ''}
+        </div>
+        ${m.products ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;">Products: ${m.products}</div>` : ''}
+        ${m.notes ? `<div class="mfr-notes">${m.notes}</div>` : ''}
+        ${visitBadge}
       </div>
-      ${!inCatView && m.province ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">📍 ${m.city}, ${m.province}</div>` : ''}
-      <div class="mfr-meta">
-        <span class="badge badge-cat">${CATEGORY_ICONS[m.category]||'📦'} ${m.category}</span>
-        ${m.moq ? `<span class="badge badge-moq">MOQ: ${m.moq}</span>` : ''}
-        ${m.priceRange ? `<span class="badge badge-price">💰 ${m.priceRange}</span>` : ''}
-        ${m.goldSupplier ? `<span class="badge badge-gold">⭐ Gold Supplier</span>` : ''}
+      <div class="mfr-links">
+        ${m.alibabaUrl ? `<a class="btn-link" href="${m.alibabaUrl}" target="_blank">Alibaba ↗</a>` : ''}
+        ${m.website ? `<a class="btn-link" href="${m.website}" target="_blank">Website ↗</a>` : ''}
       </div>
-      ${m.products ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;">Products: ${m.products}</div>` : ''}
-      ${m.notes ? `<div class="mfr-notes">${m.notes}</div>` : ''}
-      ${visitBadge}
     </div>
-    <div class="mfr-actions">
-      ${m.alibabaUrl ? `<a class="btn-link" href="${m.alibabaUrl}" target="_blank">Alibaba ↗</a>` : ''}
-      ${m.website ? `<a class="btn-link" href="${m.website}" target="_blank">Website ↗</a>` : ''}
+    <div class="mfr-bottom-actions">
       <span class="status-inline-label" style="font-size:11px;color:${statusColor};font-weight:600;">${statusText}</span>
       <button class="btn-contact ${contacted ? 'is-contacted' : 'not-contacted'}" onclick="toggleContacted('${m.id}')">
         ${contacted ? '✓ Contacted' : '✉ Mark contacted'}
