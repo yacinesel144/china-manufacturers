@@ -2,7 +2,7 @@
   "meta": {
     "tripOwner": "Anasse Ataya",
     "lastUpdated": "2026-05-13",
-    "totalManufacturers": 5
+    "totalManufacturers": 9
   },
   "categories": [
     "Sportswear",
@@ -19,13 +19,77 @@
   "cityRegions": {
     "Guangdong Province": ["Guangzhou", "Shenzhen", "Dongguan", "Foshan", "Zhongshan"],
     "Fujian Province": ["Jinjiang", "Quanzhou", "Xiamen", "Fuzhou"],
-    "Zhejiang Province": ["Yiwu", "Wenzhou", "Hangzhou", "Ningbo", "Huzhou", "Yongkang"],
+    "Zhejiang Province": ["Yiwu", "Wenzhou", "Hangzhou", "Ningbo", "Huzhou", "Yongkang", "Jinhua"],
     "Shandong Province": ["Qingdao", "Weihai", "Jinan"],
     "Chongqing / Sichuan": ["Chongqing", "Chengdu"],
-    "Shanghai / Jiangsu": ["Shanghai", "Nanjing", "Suzhou"],
+    "Shanghai / Jiangsu": ["Shanghai", "Nanjing", "Suzhou", "Changzhou"],
     "Other": []
   },
   "manufacturers": [
+    {
+      "id": "MFR-006",
+      "name": "Jinhua Qidian Vehicle Co., Ltd. (Cheerd Bike)",
+      "city": "Jinhua",
+      "province": "Zhejiang Province",
+      "category": "Motorcycles",
+      "products": "Full suspension electric dirt bike / e-motorcycle — 72V 3000W Bafang mid-motor, 85–100km/h top speed, 72V30AH lithium battery, hydraulic disc brakes, 19\" Kenda tires, 6061 aluminum frame",
+      "moq": "2 pieces",
+      "priceRange": "$1,890–$2,095 / piece",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/CHEERD-BIKE-Full-Suspension-Electric-Mountain_1601740619527.html",
+      "website": "",
+      "notes": "4 yr Gold Supplier. Model QD-EMB20. Brand: Qidian. Lead time: 15 days (1–2 units). Full OEM/ODM customization available. Bafang components are high-quality European-favored brand.",
+      "addedDate": "2026-05-13"
+    },
+    {
+      "id": "MFR-007",
+      "name": "Changzhou Fubo Intelligent Technology Co., Ltd.",
+      "city": "Changzhou",
+      "province": "Shanghai / Jiangsu",
+      "category": "Motorcycles",
+      "products": "EEC/COC certified electric motorcycle — 8000W, 120km/h max speed, 72V 117AH lithium battery, dual-channel ABS, 255km range, cruiser style",
+      "moq": "1 piece",
+      "priceRange": "$3,556–$3,683 / piece",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/China-Super-Eec-Certified-120Km-H_1601290629872.html",
+      "website": "",
+      "notes": "9 yr Gold Supplier — very established. Model JSQ1. Brand: Fubo. EEC & COC certified (EU road legal). Lead time: 25 days. Logo/packaging customization from 50 units. ABS brakes are a strong safety differentiator.",
+      "addedDate": "2026-05-13"
+    },
+    {
+      "id": "MFR-008",
+      "name": "Foshan Xinderui Trading Co., Ltd. (Racceway / RSA)",
+      "city": "Foshan",
+      "province": "Guangdong Province",
+      "category": "Motorcycles",
+      "products": "High-performance racing electric motorcycle — 12000W, 72V 130AH lithium, 120km/h, 200km range, CBS disc brakes, LED, off-road capable",
+      "moq": "10 pieces",
+      "priceRange": "$4,600 / piece",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/RACCEWAY-High-Performance-12000W-72V-130AH_1601137397218.html",
+      "website": "",
+      "notes": "6 yr Gold Supplier. Model: Storm. Brand: RSA. ⚠️ Trading company (not direct factory) — negotiate on price. Lead time: 60 days (10+ units). Rating: 4.3/5 (3 reviews). Available in 5–12kW variants.",
+      "addedDate": "2026-05-13"
+    },
+    {
+      "id": "MFR-009",
+      "name": "Qingdao Sunlit International Trade Co., Ltd.",
+      "city": "Qingdao",
+      "province": "Shandong Province",
+      "category": "Prefab Homes",
+      "products": "2-storey anti-seismic prefab wooden villa — flat-roof, solar powered, steel-frame + wood construction, postmodern design, customizable, hotel/residential use",
+      "moq": "1 set",
+      "priceRange": "$23,899 / set",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/Modern-2-Storey-Anti-Seismic-Prefab_1601522665557.html",
+      "website": "",
+      "notes": "1 yr Gold Supplier. Brand: Sunlit. 2-year warranty + online technical support. Lead time: 35 days (1–5 sets). Full customization (color, layout, materials). Anti-seismic certification is a valuable feature for Andorra terrain.",
+      "addedDate": "2026-05-13"
+    },
     {
       "id": "MFR-001",
       "name": "Yongkang Xingding Industry And Trade Co., Ltd.",
