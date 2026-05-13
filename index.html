@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>China Manufacturers — Trip Tracker</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     :root {
       --bg: #0f1117;
@@ -432,6 +433,63 @@
       margin-top: 6px;
     }
 
+    /* ── MAP VIEW ── */
+    #map-container {
+      display: none;
+      height: calc(100vh - 132px);
+      position: relative;
+    }
+    #map-container.active { display: block; }
+    #map { width: 100%; height: 100%; }
+    /* Override Leaflet popup defaults to match dark theme */
+    .leaflet-popup-content-wrapper {
+      background: #1a1d27;
+      color: #e8eaf6;
+      border: 1px solid #2e3350;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.6);
+    }
+    .leaflet-popup-tip { background: #1a1d27; }
+    .leaflet-popup-content { margin: 14px 16px; }
+    .map-popup-city {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #2e3350;
+      color: #e8eaf6;
+    }
+    .map-popup-mfr {
+      background: #22263a;
+      border-radius: 7px;
+      padding: 9px 11px;
+      margin-bottom: 7px;
+    }
+    .map-popup-mfr:last-child { margin-bottom: 0; }
+    .map-popup-name { font-weight: 600; font-size: 13px; color: #e8eaf6; }
+    .map-popup-cat { font-size: 11px; color: #7b82a8; margin-top: 2px; }
+    .map-popup-row { display: flex; gap: 8px; margin-top: 5px; flex-wrap: wrap; align-items: center; }
+    .map-popup-badge {
+      font-size: 10px; font-weight: 600;
+      padding: 2px 7px; border-radius: 20px;
+    }
+    .map-popup-link {
+      font-size: 11px;
+      color: #4f8ef7;
+      text-decoration: none;
+      margin-left: auto;
+    }
+    .map-popup-link:hover { text-decoration: underline; }
+    .map-pin-no-location {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 24px 28px;
+    }
+
     [title] { cursor: help; }
     @media (max-width: 640px) {
       header { flex-direction: column; gap: 12px; }
@@ -480,9 +538,14 @@
   <div class="view-tabs">
     <button class="view-tab active" data-view="city" onclick="switchView('city', this)">By City</button>
     <button class="view-tab" data-view="category" onclick="switchView('category', this)">By Category</button>
+    <button class="view-tab" data-view="map" onclick="switchView('map', this)">🗺 Map</button>
   </div>
 </div>
 
+<div id="map-container">
+  <div id="map-no-coords-warn" class="map-pin-no-location" style="display:none;position:absolute;z-index:999;bottom:12px;left:50%;transform:translateX(-50%);white-space:nowrap;"></div>
+  <div id="map"></div>
+</div>
 <div class="main" id="main-content"></div>
 
 <!-- ── SCHEDULE MODAL ── -->
@@ -524,6 +587,7 @@
   </div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const CATEGORY_ICONS = {
   "Sportswear": "⚽", "Footwear": "👟", "Accessories": "🧢",
@@ -538,10 +602,55 @@ const LS_CONTACTED = 'mfr_contacted';
 const LS_DELETED   = 'mfr_deleted';
 const LS_VISITS    = 'mfr_visits'; // { [id]: { date, start, end, notes } }
 
+// City → [lat, lng] for all cities in the dataset
+const CITY_COORDS = {
+  // Pearl River Delta — Guangdong
+  'Guangzhou':  [23.1291, 113.2644],
+  'Shenzhen':   [22.5431, 114.0579],
+  'Dongguan':   [23.0489, 113.7447],
+  'Foshan':     [23.0220, 113.1220],
+  'Zhuhai':     [22.2710, 113.5767],
+  // Fujian
+  'Quanzhou':   [24.8741, 118.6757],
+  'Jinjiang':   [24.7819, 118.5521],
+  'Xiamen':     [24.4798, 118.0894],
+  'Fuzhou':     [26.0745, 119.2965],
+  // Zhejiang
+  'Hangzhou':   [30.2741, 120.1551],
+  'Yongkang':   [28.8881, 120.0143],
+  'Jinhua':     [29.0785, 119.6471],
+  'Wenzhou':    [28.0000, 120.6720],
+  'Ningbo':     [29.8683, 121.5440],
+  // Jiangsu
+  'Shanghai':   [31.2304, 121.4737],
+  'Changzhou':  [31.7748, 119.9740],
+  'Nanjing':    [32.0603, 118.7969],
+  'Suzhou':     [31.2989, 120.5853],
+  // Chongqing / Sichuan
+  'Chongqing':  [29.5630, 106.5516],
+  'Chengdu':    [30.5728, 104.0668],
+  // Hunan
+  'Changsha':   [28.2282, 112.9388],
+  // Jiangxi
+  'Nanchang':   [28.6820, 115.8579],
+  // Hebei
+  'Baoding':    [38.8671, 115.4645],
+  // Shandong
+  'Weifang':    [36.7074, 119.1616],
+  'Qingdao':    [36.0671, 120.3826],
+  // Hubei
+  'Wuhan':      [30.5928, 114.3055],
+  // Beijing / Tianjin
+  'Beijing':    [39.9042, 116.4074],
+  'Tianjin':    [39.3434, 117.3616],
+};
+
 let allData = null;
 let currentView = 'city';
 let filters = { search: '', cat: '', status: '' };
-let modalMfr = null; // manufacturer currently open in modal
+let modalMfr = null;
+let leafletMap = null;
+let markerLayer = null;
 
 // ── localStorage helpers ────────────────────────────────────────────────────
 
@@ -717,19 +826,119 @@ function switchView(view, btn) {
 }
 
 function render() {
+  const mapContainer  = document.getElementById('map-container');
+  const mainContainer = document.getElementById('main-content');
+
+  if (currentView === 'map') {
+    mainContainer.style.display = 'none';
+    mapContainer.classList.add('active');
+    renderMapView();
+    updateStats();
+    return;
+  }
+
+  mapContainer.classList.remove('active');
+  mainContainer.style.display = '';
+
   const filtered = getFiltered();
-  const container = document.getElementById('main-content');
   if (allData.manufacturers.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="big-icon">🗺️</div><h2>No manufacturers yet</h2><p>Paste an Alibaba listing URL to Claude Code and it will automatically extract and sort the manufacturer info here.</p></div>`;
+    mainContainer.innerHTML = `<div class="empty-state"><div class="big-icon">🗺️</div><h2>No manufacturers yet</h2><p>Paste an Alibaba listing URL to Claude Code and it will automatically extract and sort the manufacturer info here.</p></div>`;
     return;
   }
   if (filtered.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="big-icon">🔍</div><h2>No matches</h2><p>Try adjusting your search or filters.</p></div>`;
+    mainContainer.innerHTML = `<div class="empty-state"><div class="big-icon">🔍</div><h2>No matches</h2><p>Try adjusting your search or filters.</p></div>`;
     return;
   }
-  if (currentView === 'city') renderCityView(filtered, container);
-  else renderCategoryView(filtered, container);
+  if (currentView === 'city') renderCityView(filtered, mainContainer);
+  else renderCategoryView(filtered, mainContainer);
   updateStats();
+}
+
+function renderMapView() {
+  const filtered = getFiltered();
+
+  // Init map once
+  if (!leafletMap) {
+    leafletMap = L.map('map', { zoomControl: true }).setView([32, 108], 5);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> &copy; <a href="https://carto.com">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 18
+    }).addTo(leafletMap);
+    markerLayer = L.layerGroup().addTo(leafletMap);
+  } else {
+    leafletMap.invalidateSize();
+  }
+
+  markerLayer.clearLayers();
+
+  // Group by city
+  const byCity = {};
+  filtered.forEach(m => {
+    if (!byCity[m.city]) byCity[m.city] = [];
+    byCity[m.city].push(m);
+  });
+
+  const noCoords = [];
+
+  for (const [city, items] of Object.entries(byCity)) {
+    const coords = CITY_COORDS[city];
+    if (!coords) { noCoords.push(city); continue; }
+
+    const hasVisit     = items.some(m => getVisit(m.id));
+    const hasContacted = items.some(m => isContacted(m.id));
+    const pinColor = hasVisit ? '#4caf82' : hasContacted ? '#f7d14f' : '#4f8ef7';
+    const pinBorder = hasVisit ? '#2e6040' : hasContacted ? '#806c1a' : '#2e4080';
+
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="
+        background:${pinColor};color:#fff;
+        width:30px;height:30px;border-radius:50%;
+        display:flex;align-items:center;justify-content:center;
+        font-weight:800;font-size:13px;
+        border:2px solid ${pinBorder};
+        box-shadow:0 2px 10px rgba(0,0,0,.55);
+        cursor:pointer;
+      ">${items.length}</div>`,
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+      popupAnchor: [0, -18]
+    });
+
+    const popupHtml = `
+      <div style="min-width:230px;max-width:310px;">
+        <div class="map-popup-city">🏙️ ${city}${items[0]?.province ? ' · ' + items[0].province : ''}</div>
+        ${items.map(m => {
+          const v = getVisit(m.id);
+          const statusColor = v ? '#4caf82' : isContacted(m.id) ? '#f7d14f' : '#4f8ef7';
+          return `<div class="map-popup-mfr">
+            <div class="map-popup-name">${m.name}${m.goldSupplier ? ' ⭐' : ''}</div>
+            <div class="map-popup-cat">${CATEGORY_ICONS[m.category]||'📦'} ${m.category}</div>
+            <div class="map-popup-row">
+              ${m.moq ? `<span class="map-popup-badge" style="background:#1e3d2a;color:#6fd4a1;border:1px solid #2e6040;">MOQ: ${m.moq}</span>` : ''}
+              ${m.priceRange ? `<span class="map-popup-badge" style="background:#3d2a1e;color:#f4b06d;border:1px solid #80502e;">💰 ${m.priceRange}</span>` : ''}
+              ${v ? `<span class="map-popup-badge" style="background:#1a3d2a;color:#4caf82;border:1px solid #2e6040;">📅 ${formatVisitDate(v.date)}</span>` : ''}
+              <span style="font-size:10px;font-weight:600;color:${statusColor};margin-left:auto;">● ${v ? 'Scheduled' : isContacted(m.id) ? 'Contacted' : 'New'}</span>
+            </div>
+            ${m.alibabaUrl ? `<div style="margin-top:5px;"><a class="map-popup-link" href="${m.alibabaUrl}" target="_blank">View on Alibaba ↗</a></div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>`;
+
+    L.marker(coords, { icon })
+      .bindPopup(popupHtml, { maxWidth: 340, minWidth: 240 })
+      .addTo(markerLayer);
+  }
+
+  // Show warning for cities with no coordinates
+  const warn = document.getElementById('map-no-coords-warn');
+  if (noCoords.length > 0) {
+    const msg = `📍 No map coordinates for: ${noCoords.join(', ')}`;
+    if (warn) { warn.textContent = msg; warn.style.display = 'block'; }
+  } else {
+    if (warn) warn.style.display = 'none';
+  }
 }
 
 function renderCityView(filtered, container) {
