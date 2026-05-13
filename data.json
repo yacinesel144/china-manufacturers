@@ -2,7 +2,7 @@
   "meta": {
     "tripOwner": "Anasse Ataya",
     "lastUpdated": "2026-05-13",
-    "totalManufacturers": 3
+    "totalManufacturers": 5
   },
   "categories": [
     "Sportswear",
@@ -56,6 +56,38 @@
       "alibabaUrl": "https://www.alibaba.com/product-detail/Big-Power-Electric-ATV-Quad-for_60850533690.html",
       "website": "",
       "notes": "Listing blocked / unavailable for this region. Open the Alibaba URL directly while logged in to check supplier details.",
+      "addedDate": "2026-05-13"
+    },
+    {
+      "id": "MFR-004",
+      "name": "Shandong Renqi Environmental Sanitation Equipment Co., Ltd.",
+      "city": "Qingdao",
+      "province": "Shandong Province",
+      "category": "Electric Vehicles",
+      "products": "Solar-powered 10-seater electric golf cart — 4WD off-road, 72V 150AH battery, 90km range, 30km/h max, CE certified, 5kW AC motor, suits resorts & hotels",
+      "moq": "1 unit",
+      "priceRange": "$4,400–$4,650 / unit (volume pricing)",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/Solar-Powered-10-Seater-Electric-Golf_1601706410921.html",
+      "website": "",
+      "notes": "2 yr Gold Supplier. Model G-F5CX. Brand: RenQi. Lead time: 15 days (1–2 units). Custom battery (+$500), motor (+$450), logo (free). Ocean freight ~17–24 days. ⭐ 5.0 rating (5 reviews).",
+      "addedDate": "2026-05-13"
+    },
+    {
+      "id": "MFR-005",
+      "name": "⚠️ Powerful Sport Electric ATV 10000W 72V [Listing Unavailable]",
+      "city": "Other",
+      "province": "Other",
+      "category": "Quads / ATVs",
+      "products": "Powerful Sport Electric ATV — 10000W, 72V",
+      "moq": "—",
+      "priceRange": "—",
+      "goldSupplier": false,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/Powerful-Sport-Electric-ATV-10000W-72V_1601446473401.html",
+      "website": "",
+      "notes": "Region-blocked listing. Open in Alibaba while logged in to get supplier details.",
       "addedDate": "2026-05-13"
     },
     {
