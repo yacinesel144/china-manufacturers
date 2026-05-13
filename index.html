@@ -1056,6 +1056,7 @@ function mfrCardHtml(m, inCatView = false) {
           ${m.goldSupplier ? '⭐' : ''}
         </div>
         ${!inCatView && m.province ? `<div style="font-size:12px;color:var(--muted);margin-top:2px;">📍 ${m.city}, ${m.province}</div>` : ''}
+        ${m.products ? `<div style="font-size:12px;color:var(--text);margin-top:4px;opacity:.75;">${m.products}</div>` : ''}
         <button class="btn-readmore" onclick="toggleDetails('${m.id}', this)">▼ Show details</button>
         <div class="mfr-details" id="details-${m.id}">
           <div class="mfr-meta">
@@ -1064,7 +1065,6 @@ function mfrCardHtml(m, inCatView = false) {
             ${m.priceRange ? `<span class="badge badge-price">💰 ${m.priceRange}</span>` : ''}
             ${m.goldSupplier ? `<span class="badge badge-gold">⭐ Gold Supplier</span>` : ''}
           </div>
-          ${m.products ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;">Products: ${m.products}</div>` : ''}
           ${m.notes ? `<div class="mfr-notes">${m.notes}</div>` : ''}
           ${visitBadge}
         </div>
