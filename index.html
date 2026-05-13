@@ -78,6 +78,24 @@
     }
     select:focus { border-color: var(--accent); }
 
+    /* SHOW DELETED TOGGLE */
+    .show-deleted-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      user-select: none;
+      transition: border-color .15s;
+    }
+    .show-deleted-label:hover { border-color: var(--red); color: var(--red); }
+    .show-deleted-label input { accent-color: var(--red); cursor: pointer; }
+
     /* VIEW TABS */
     .view-tabs {
       display: flex;
@@ -162,6 +180,11 @@
       transition: border-color .15s;
     }
     .mfr-card:hover { border-color: var(--accent); }
+    .mfr-card.is-deleted {
+      opacity: 0.45;
+      border-color: var(--red);
+      border-style: dashed;
+    }
     .mfr-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
     .mfr-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
     .badge {
@@ -174,8 +197,6 @@
     .badge-moq { background: #1e3d2a; color: #6fd4a1; border: 1px solid #2e6040; }
     .badge-price { background: #3d2a1e; color: #f4b06d; border: 1px solid #80502e; }
     .badge-gold { background: #3d3510; color: #f7d14f; border: 1px solid #806c1a; }
-    .badge-status-hot { background: #3d1e1e; color: #f78080; border: 1px solid #8a3030; }
-    .badge-status-ok { background: #1e2d3d; color: #80b4f7; border: 1px solid #2e5080; }
     .mfr-notes { font-size: 12px; color: var(--muted); margin-top: 5px; font-style: italic; }
     .mfr-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
     .btn-link {
@@ -191,6 +212,72 @@
       text-align: center;
     }
     .btn-link:hover { background: var(--border); }
+
+    /* CONTACT TOGGLE BUTTON */
+    .btn-contact {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .btn-contact.not-contacted {
+      background: #1e2d5a;
+      border-color: #2e4080;
+      color: #7aabff;
+    }
+    .btn-contact.not-contacted:hover {
+      background: #2a3d7a;
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-contact.is-contacted {
+      background: #3d3510;
+      border-color: #806c1a;
+      color: var(--yellow);
+    }
+    .btn-contact.is-contacted:hover {
+      background: #4d4515;
+      border-color: var(--yellow);
+    }
+
+    /* DELETE BUTTON */
+    .btn-delete {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #4a2020;
+      background: #2a1515;
+      color: #a05050;
+      cursor: pointer;
+      transition: all .15s;
+      font-weight: 600;
+    }
+    .btn-delete:hover {
+      background: #3a1f1f;
+      border-color: var(--red);
+      color: var(--red);
+    }
+    .btn-restore {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #4a2020;
+      background: #2a1515;
+      color: var(--red);
+      cursor: pointer;
+      transition: all .15s;
+      font-weight: 600;
+    }
+    .btn-restore:hover {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red);
+    }
+
     .status-dot {
       width: 8px;
       height: 8px;
@@ -289,7 +376,7 @@
     <div class="stat"><div class="num" id="stat-total">0</div><div class="label">Total</div></div>
     <div class="stat"><div class="num" id="stat-cities">0</div><div class="label">Cities</div></div>
     <div class="stat"><div class="num" id="stat-cats">0</div><div class="label">Categories</div></div>
-    <div class="stat"><div class="num" id="stat-scheduled">0</div><div class="label">Scheduled</div></div>
+    <div class="stat"><div class="num" id="stat-contacted">0</div><div class="label">Contacted</div></div>
   </div>
 </header>
 
@@ -305,6 +392,10 @@
     <option value="scheduled">Visit Scheduled</option>
     <option value="rejected">Rejected</option>
   </select>
+  <label class="show-deleted-label">
+    <input type="checkbox" id="show-deleted" onchange="render()" />
+    Show deleted
+  </label>
   <div class="view-tabs">
     <button class="view-tab active" data-view="city" onclick="switchView('city', this)">By City</button>
     <button class="view-tab" data-view="category" onclick="switchView('category', this)">By Category</button>
@@ -334,9 +425,65 @@ const STATUS_LABELS = {
   rejected: "Rejected"
 };
 
+const LS_CONTACTED = 'mfr_contacted'; // Set of IDs the user toggled as contacted locally
+const LS_DELETED   = 'mfr_deleted';   // Set of IDs the user deleted locally
+
 let allData = null;
 let currentView = 'city';
 let filters = { search: '', cat: '', status: '' };
+
+// ── localStorage helpers ──────────────────────────────────────────────────────
+
+function lsGetSet(key) {
+  try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
+  catch { return new Set(); }
+}
+
+function lsSaveSet(key, set) {
+  localStorage.setItem(key, JSON.stringify([...set]));
+}
+
+function isContacted(id) {
+  return lsGetSet(LS_CONTACTED).has(id);
+}
+
+function toggleContacted(id) {
+  const set = lsGetSet(LS_CONTACTED);
+  set.has(id) ? set.delete(id) : set.add(id);
+  lsSaveSet(LS_CONTACTED, set);
+  // Update the button and dot in place without a full re-render
+  const card = document.querySelector(`[data-mfr-id="${id}"]`);
+  if (!card) return;
+  const btn = card.querySelector('.btn-contact');
+  const dot = card.querySelector('.status-dot');
+  const statusLabel = card.querySelector('.status-inline-label');
+  const contacted = set.has(id);
+  if (btn) {
+    btn.textContent = contacted ? '✓ Contacted' : '✉ Mark contacted';
+    btn.className = 'btn-contact ' + (contacted ? 'is-contacted' : 'not-contacted');
+  }
+  if (dot) {
+    dot.className = 'status-dot ' + (contacted ? 'contacted' : 'new');
+  }
+  if (statusLabel) {
+    statusLabel.textContent = contacted ? 'Contacted' : 'New';
+    statusLabel.style.color = contacted ? 'var(--yellow)' : 'var(--accent)';
+  }
+  updateStats();
+}
+
+function isDeleted(id) {
+  return lsGetSet(LS_DELETED).has(id);
+}
+
+function toggleDelete(id) {
+  const set = lsGetSet(LS_DELETED);
+  set.has(id) ? set.delete(id) : set.add(id);
+  lsSaveSet(LS_DELETED, set);
+  render();
+}
+
+// ── Data loading ──────────────────────────────────────────────────────────────
 
 async function loadData() {
   try {
@@ -349,7 +496,6 @@ async function loadData() {
 }
 
 function init() {
-  // Populate category filter
   const sel = document.getElementById('filter-cat');
   allData.categories.forEach(c => {
     const opt = document.createElement('option');
@@ -368,23 +514,29 @@ function init() {
 }
 
 function getFiltered() {
+  const showDeleted = document.getElementById('show-deleted')?.checked;
   return allData.manufacturers.filter(m => {
+    if (!showDeleted && isDeleted(m.id)) return false;
+    // When filtering by "contacted" status, include locally-toggled ones too
+    const effectiveStatus = isContacted(m.id) ? 'contacted' : m.status;
     if (filters.search && !JSON.stringify(m).toLowerCase().includes(filters.search)) return false;
     if (filters.cat && m.category !== filters.cat) return false;
-    if (filters.status && m.status !== filters.status) return false;
+    if (filters.status && effectiveStatus !== filters.status) return false;
     return true;
   });
 }
 
 function updateStats() {
+  if (!allData) return;
   const mfrs = allData.manufacturers;
-  const cities = new Set(mfrs.map(m => m.city)).size;
-  const cats = new Set(mfrs.map(m => m.category)).size;
-  const scheduled = mfrs.filter(m => m.status === 'scheduled').length;
-  document.getElementById('stat-total').textContent = mfrs.length;
+  const visible = mfrs.filter(m => !isDeleted(m.id));
+  const cities = new Set(visible.map(m => m.city)).size;
+  const cats = new Set(visible.map(m => m.category)).size;
+  const contacted = visible.filter(m => isContacted(m.id) || m.status === 'contacted').length;
+  document.getElementById('stat-total').textContent = visible.length;
   document.getElementById('stat-cities').textContent = cities;
   document.getElementById('stat-cats').textContent = cats;
-  document.getElementById('stat-scheduled').textContent = scheduled;
+  document.getElementById('stat-contacted').textContent = contacted;
 }
 
 function switchView(view, btn) {
@@ -415,12 +567,13 @@ function render() {
 
   if (currentView === 'city') renderCityView(filtered, container);
   else renderCategoryView(filtered, container);
+
+  updateStats();
 }
 
 function renderCityView(filtered, container) {
   const byRegion = {};
 
-  // Group by region → city
   for (const [region, cities] of Object.entries(allData.cityRegions)) {
     for (const city of cities) {
       const items = filtered.filter(m => m.city === city);
@@ -430,7 +583,6 @@ function renderCityView(filtered, container) {
     }
   }
 
-  // Manufacturers in cities not in the region map
   const allKnownCities = Object.values(allData.cityRegions).flat();
   const unknownCities = [...new Set(filtered.filter(m => !allKnownCities.includes(m.city)).map(m => m.city))];
   unknownCities.forEach(city => {
@@ -441,7 +593,6 @@ function renderCityView(filtered, container) {
 
   let html = '';
 
-  // Trip itinerary hint if we have data
   if (allData.manufacturers.length > 0) {
     const citiesWithData = [...new Set(allData.manufacturers.map(m => m.city))];
     html += `<div class="itinerary-bar">
@@ -510,13 +661,18 @@ function renderCategoryView(filtered, container) {
 }
 
 function mfrCardHtml(m, inCatView = false) {
-  const statusColors = { new: '#4f8ef7', contacted: '#f7d14f', scheduled: '#4caf82', rejected: '#f76d6d' };
-  const dotColor = statusColors[m.status] || '#4f8ef7';
+  const contacted = isContacted(m.id);
+  const deleted = isDeleted(m.id);
 
-  return `<div class="mfr-card">
+  // Effective status: local toggle wins over JSON status
+  const effectiveStatus = contacted ? 'contacted' : m.status;
+  const statusColors = { new: '#4f8ef7', contacted: '#f7d14f', scheduled: '#4caf82', rejected: '#f76d6d' };
+  const statusColor = statusColors[effectiveStatus] || '#4f8ef7';
+
+  return `<div class="mfr-card${deleted ? ' is-deleted' : ''}" data-mfr-id="${m.id}">
     <div>
       <div class="mfr-name">
-        <span class="status-dot ${m.status || 'new'}"></span>${m.name}
+        <span class="status-dot ${effectiveStatus}"></span>${m.name}
         ${m.goldSupplier ? '⭐' : ''}
       </div>
       ${!inCatView && m.province ? `<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">📍 ${m.city}, ${m.province}</div>` : ''}
@@ -532,7 +688,14 @@ function mfrCardHtml(m, inCatView = false) {
     <div class="mfr-actions">
       ${m.alibabaUrl ? `<a class="btn-link" href="${m.alibabaUrl}" target="_blank">Alibaba ↗</a>` : ''}
       ${m.website ? `<a class="btn-link" href="${m.website}" target="_blank">Website ↗</a>` : ''}
-      <span style="font-size:11px;color:${dotColor};font-weight:600;">${STATUS_LABELS[m.status]||'New'}</span>
+      <span class="status-inline-label" style="font-size:11px;color:${statusColor};font-weight:600;">${STATUS_LABELS[effectiveStatus]||'New'}</span>
+      <button class="btn-contact ${contacted ? 'is-contacted' : 'not-contacted'}" onclick="toggleContacted('${m.id}')">
+        ${contacted ? '✓ Contacted' : '✉ Mark contacted'}
+      </button>
+      ${deleted
+        ? `<button class="btn-restore" onclick="toggleDelete('${m.id}')">↩ Restore</button>`
+        : `<button class="btn-delete" onclick="toggleDelete('${m.id}')">✕ Delete</button>`
+      }
     </div>
   </div>`;
 }
