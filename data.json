@@ -2,7 +2,7 @@
   "meta": {
     "tripOwner": "Anasse Ataya",
     "lastUpdated": "2026-05-13",
-    "totalManufacturers": 9
+    "totalManufacturers": 10
   },
   "categories": [
     "Sportswear",
@@ -26,6 +26,22 @@
     "Other": []
   },
   "manufacturers": [
+    {
+      "id": "MFR-010",
+      "name": "Shandong Kaijie Sports Goods Co., Ltd.",
+      "city": "Qingdao",
+      "province": "Shandong Province",
+      "category": "Training Equipment",
+      "products": "Custom professional soccer ball — sizes 1–5, thermal bonded PU leather, match & training grade, OEM logo printing available",
+      "moq": "1 piece (logo customization from 50 pcs)",
+      "priceRange": "~$5.30–$6.74 / ball (volume pricing)",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/Custom-Professional-Soccer-Ball-Size-1_1601427784237.html",
+      "website": "",
+      "notes": "3 yr Gold Supplier. ⭐ 4.8/5 (40 reviews) — #1 Most Popular in Balls. 5,721 units sold. CE certified. Brand: SIANGON/OEM. Lead time: 5 days (small orders). Full OEM/custom design available. Very fast turnaround.",
+      "addedDate": "2026-05-13"
+    },
     {
       "id": "MFR-006",
       "name": "Jinhua Qidian Vehicle Co., Ltd. (Cheerd Bike)",
