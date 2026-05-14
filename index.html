@@ -937,7 +937,13 @@ function renderMapView() {
               ${v ? `<span class="map-popup-badge" style="background:#1a3d2a;color:#4caf82;border:1px solid #2e6040;">📅 ${formatVisitDate(v.date)}</span>` : ''}
               <span style="font-size:10px;font-weight:600;color:${statusColor};margin-left:auto;">● ${v ? 'Scheduled' : isContacted(m.id) ? 'Contacted' : 'New'}</span>
             </div>
-            ${m.alibabaUrl ? `<div style="margin-top:5px;"><a class="map-popup-link" href="${m.alibabaUrl}" target="_blank">View on Alibaba ↗</a></div>` : ''}
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;">
+              ${m.alibabaUrl ? `<a class="map-popup-link" href="${m.alibabaUrl}" target="_blank">View on Alibaba ↗</a>` : '<span></span>'}
+              ${isDeleted(m.id)
+                ? `<button onclick="toggleDelete('${m.id}')" style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;border:1px solid #4a2020;background:#2a1515;color:#f76d6d;cursor:pointer;">↩ Restore</button>`
+                : `<button onclick="toggleDelete('${m.id}')" style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;border:1px solid #4a2020;background:#2a1515;color:#a05050;cursor:pointer;">✕ Delete</button>`
+              }
+            </div>
           </div>`;
         }).join('')}
       </div>`;
