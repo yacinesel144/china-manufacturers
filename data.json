@@ -2,7 +2,7 @@
   "meta": {
     "tripOwner": "Anasse Ataya",
     "lastUpdated": "2026-05-13",
-    "totalManufacturers": 23
+    "totalManufacturers": 27
   },
   "categories": [
     "Sportswear",
@@ -29,6 +29,70 @@
     "Other": []
   },
   "manufacturers": [
+    {
+      "id": "MFR-027",
+      "name": "Qingdao Yamane Ryu Yacht Manufacturing Co., Ltd.",
+      "city": "Qingdao",
+      "province": "Shandong",
+      "category": "Marine / Boats",
+      "products": "Prefab luxury aluminum houseboat, floating home, pontoon boat, catamaran — 7m–18m, 10–20 passengers, 9–30 knots",
+      "moq": "1 piece",
+      "priceRange": "€33,631–€86,234 / unit",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/Prefab-Luxury-House-Boat-House-Boat_1600669768322.html",
+      "website": "",
+      "notes": "13yr Gold Supplier. 5.0★, 100% on-time delivery. #8 leading factory for Luxury Travel Equipment. CE certified (x4). Founded 2011, 5260m², 33 staff. Marine grade aluminum 5083, EVA floor, full custom. Lead time: 55 days. $700K+ online revenue. Qingdao — visit same day as MFR-009 & MFR-023.",
+      "addedDate": "2026-05-14"
+    },
+    {
+      "id": "MFR-026",
+      "name": "Shenzhen Tiantuo Watch Industry Co., Ltd.",
+      "city": "Shenzhen",
+      "province": "Guangdong",
+      "category": "Accessories",
+      "products": "I&W Carnival automatic watches — moon phase, sapphire crystal dial, leather strap, 10 bar waterproof, 41mm stainless steel case",
+      "moq": "1 piece",
+      "priceRange": "$177–$222 / piece",
+      "goldSupplier": false,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/I-W-Carnival-Men-s-Sport_1601766353078.html",
+      "website": "",
+      "notes": "4.6★ (5 reviews). CE & RoHS certified. Founded 2011, 1200m² factory. Sapphire crystal, cow leather strap, luminous hands, auto date. Full customization. 91.7% on-time delivery. Lead time: 15 days (1–10 pcs). Shenzhen — visit same day as MFR-025 (Megir Watch).",
+      "addedDate": "2026-05-14"
+    },
+    {
+      "id": "MFR-025",
+      "name": "Shenzhen Megir Watch Co., Ltd.",
+      "city": "Shenzhen",
+      "province": "Guangdong",
+      "category": "Accessories",
+      "products": "Men's luxury watches — automatic mechanical, skeleton, chronograph, quartz; custom logo/brand watches, wholesale & dropship",
+      "moq": "1 piece",
+      "priceRange": "$5.30–$197 / piece",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://megirwatch.en.alibaba.com/productlist.html",
+      "website": "",
+      "notes": "Established watch brand (Megir, Mini Focus, Nakzen, Ruimas, Pagani Design). 48 pages of products. MOQ as low as 1 pc. Custom logo from low MOQ. Dropship-friendly. Shenzhen — can visit same day as other Guangdong suppliers.",
+      "addedDate": "2026-05-13"
+    },
+    {
+      "id": "MFR-024",
+      "name": "Foshan Yakai Integrated Housing Technology Co., Ltd.",
+      "city": "Foshan",
+      "province": "Guangdong",
+      "category": "Prefab Homes",
+      "products": "Portable 2-bedroom mobile home, 20ft/40ft foldable container houses, modular prefab homes for villas, dormitories, offices",
+      "moq": "4 sets",
+      "priceRange": "$8,000–$28,000 / set",
+      "goldSupplier": true,
+      "status": "new",
+      "alibabaUrl": "https://www.alibaba.com/product-detail/Portable-2-Bedroom-Mobile-Home-20ft_1601674716353.html",
+      "website": "",
+      "notes": "5yr Gold Supplier. 5.0★ (167 reviews). CE & CPR certified. 14+ yrs original manufacturer. Steel frame, 20–30yr lifespan, 3-storey load-bearing (6 tons). Fast install, waterproof, seismic-resistant, thermal insulation. Full custom (color, size, shape, material). Lead time: 3 days (1–10 sets). Kitchen & bathroom options available.",
+      "addedDate": "2026-05-13"
+    },
     {
       "id": "MFR-023",
       "name": "Qingdao Gospel Boat Co., Ltd.",
